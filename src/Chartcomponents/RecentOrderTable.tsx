@@ -1,12 +1,15 @@
 import * as React from "react";
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, Typography, Box, TableSortLabel
+  Paper, Typography, Box, TableSortLabel, Card, CardContent
 } from "@mui/material";
 import { recentOrders } from '../data/dashboardData';
 import { Order } from '../types';
+import { useThemeMode } from '../theme/ThemeContext';
 
 export default function RecentOrdersTable() {
+  const { mode } = useThemeMode();
+  const isDark = mode === 'dark';
   const [orderDirection, setOrderDirection] = React.useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Order>("id");
 
@@ -33,18 +36,47 @@ export default function RecentOrdersTable() {
   }, [orderBy, orderDirection]);
 
   return (
-    <Box p={3}>
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        Recent Orders
-      </Typography>
-      <TableContainer
-        component={Paper}
-        sx={{
-          borderRadius: 2,
-          boxShadow: 2,
-          maxHeight: 400,
-        }}
-      >
+    <Card 
+      sx={{ 
+        borderRadius: 3, 
+        boxShadow: isDark ? 
+          '0 4px 20px rgba(0, 0, 0, 0.4)' : 
+          '0 2px 12px rgba(0, 0, 0, 0.08)',
+        backgroundColor: isDark ? '#272B30' : '#FFFFFF',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          transform: 'translateY(-2px)',
+          boxShadow: isDark ? 
+            '0 8px 25px rgba(0, 0, 0, 0.5)' : 
+            '0 4px 20px rgba(0, 0, 0, 0.12)',
+        }
+      }}
+    >
+      <CardContent sx={{ p: 3 }}>
+        <Typography 
+          variant="h6" 
+          component="h2"
+          sx={{ 
+            mb: 3,
+            fontWeight: 600,
+            fontSize: '1.125rem',
+            color: isDark ? '#FFFFFF' : '#1F2937',
+            letterSpacing: '-0.025em'
+          }}
+        >
+          Recent Orders
+        </Typography>
+        <TableContainer
+          component={Paper}
+          sx={{
+            borderRadius: 2,
+            boxShadow: 'none',
+            border: '1px solid',
+            borderColor: isDark ? '#3A3F47' : '#E5E7EB',
+            maxHeight: 400,
+            backgroundColor: 'transparent'
+          }}
+        >
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -108,6 +140,7 @@ export default function RecentOrdersTable() {
           </TableBody>
         </Table>
       </TableContainer>
-    </Box>
+      </CardContent>
+    </Card>
   );
 }
