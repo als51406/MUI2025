@@ -9,11 +9,14 @@ import Doughnutchart from './Chartcomponents/Doughnutchart';
 import RecentOrdersTable from './Chartcomponents/RecentOrderTable';
 import TopSellingProducts from './Chartcomponents/TopsellingProduct';
 import InvoiceList from './Chartcomponents/InvoiceList';
+import { useThemeMode } from './theme/ThemeContext';
 
 function App() {
+  const { mode } = useThemeMode();
+
   return (
     <ErrorBoundary>
-      <div id='bodyWrap' role="application" aria-label="대시보드 애플리케이션">
+      <div id='bodyWrap' data-theme={mode} role="application" aria-label="대시보드 애플리케이션">
         <Sidebar />
 
         <main id='mainWrap' role="main" aria-label="메인 콘텐츠">
