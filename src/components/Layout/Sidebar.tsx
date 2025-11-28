@@ -3,6 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import { sidebarIcons } from '../../data/dashboardData';
+import { useThemeMode } from '../../theme/ThemeContext';
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -37,6 +38,9 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 const iconLabels = ['대시보드', '분석', '리포트', '설정', '알림', '메시지', '도움말', '검색'];
 
 const Sidebar: React.FC = () => {
+  const { mode } = useThemeMode();
+  const isDark = mode === 'dark';
+  
   // useMemo로 아이콘 리스트 메모이제이션
   const iconList = React.useMemo(() => 
     sidebarIcons.map((icon, index) => (
@@ -50,16 +54,27 @@ const Sidebar: React.FC = () => {
           <img 
             src={`${process.env.PUBLIC_URL}/images/${icon}`} 
             alt=""
+            style={{
+              filter: isDark ? 'brightness(0) invert(1)' : 'none',
+              transition: 'filter 0.3s ease'
+            }}
           />
         </button>
       </li>
-    )), []);
+    )), [isDark]);
 
   return (
     <div id='asideWrap'>
       <aside role="navigation" aria-label="메인 네비게이션">
         <h2>
-          <img src={`${process.env.PUBLIC_URL}/images/Subtract.png`} alt="Base 로고" /> Base
+          <img 
+            src={`${process.env.PUBLIC_URL}/images/Subtract.png`} 
+            alt="Base 로고"
+            style={{
+              filter: isDark ? 'brightness(0) invert(1)' : 'none',
+              transition: 'filter 0.3s ease'
+            }}
+          /> Base
         </h2>
         <div className='ulbox'>
           <ul>
