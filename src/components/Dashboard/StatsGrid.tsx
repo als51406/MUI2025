@@ -6,14 +6,14 @@ const StatsGrid: React.FC = () => {
   // useMemo로 통계 카드 리스트 메모이제이션
   const statCards = React.useMemo(() => 
     dashboardStats.map((stat, index) => (
-      <li key={index} role="listitem">
+      <li key={index}>
         <StatCard stat={stat} />
       </li>
     )), []);
 
   return (
     <nav aria-label="대시보드 통계">
-      <ul role="list" aria-label="통계 카드 목록">
+      <ul aria-label="통계 카드 목록">
         {statCards}
       </ul>
     </nav>

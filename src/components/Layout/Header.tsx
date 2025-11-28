@@ -9,9 +9,9 @@ const Header: React.FC = () => {
         <h1 id="dashboard-title">Dashboard</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <nav aria-label="날짜 범위 선택">
-            <ul role="list">
+            <ul>
               {dateRanges.map((date, index) => (
-                <li key={index} role="listitem">
+                <li key={index}>
                   <button 
                     type="button"
                     aria-label={`${date} 기간 선택`}

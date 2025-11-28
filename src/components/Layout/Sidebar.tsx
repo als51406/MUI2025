@@ -33,9 +33,10 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   },
 }));
 
+// iconLabels를 컴포넌트 외부로 이동 (불변 데이터)
+const iconLabels = ['대시보드', '분석', '리포트', '설정', '알림', '메시지', '도움말', '검색'];
+
 const Sidebar: React.FC = () => {
-  const iconLabels = ['대시보드', '분석', '리포트', '설정', '알림', '메시지', '도움말', '검색'];
-  
   // useMemo로 아이콘 리스트 메모이제이션
   const iconList = React.useMemo(() => 
     sidebarIcons.map((icon, index) => (
@@ -48,8 +49,7 @@ const Sidebar: React.FC = () => {
         >
           <img 
             src={`${process.env.PUBLIC_URL}/images/${icon}`} 
-            alt="" 
-            role="presentation"
+            alt=""
           />
         </button>
       </li>
@@ -59,11 +59,11 @@ const Sidebar: React.FC = () => {
     <div id='asideWrap'>
       <aside role="navigation" aria-label="메인 네비게이션">
         <h2>
-          <img src={`${process.env.PUBLIC_URL}/images/Subtract.png`} alt="Base 로고" role="img"/> Base
+          <img src={`${process.env.PUBLIC_URL}/images/Subtract.png`} alt="Base 로고" /> Base
         </h2>
         <div className='ulbox'>
           <nav aria-label="메뉴">
-            <ul role="list">
+            <ul>
               {iconList}
             </ul>
           </nav>
@@ -77,7 +77,6 @@ const Sidebar: React.FC = () => {
               <Avatar 
                 alt="사용자 프로필 이미지" 
                 src="/static/images/avatar/1.jpg"
-                role="img"
               />
             </StyledBadge>
           </div>
