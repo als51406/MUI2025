@@ -62,11 +62,9 @@ const Sidebar: React.FC = () => {
           <img src={`${process.env.PUBLIC_URL}/images/Subtract.png`} alt="Base 로고" /> Base
         </h2>
         <div className='ulbox'>
-          <nav aria-label="메뉴">
-            <ul>
-              {iconList}
-            </ul>
-          </nav>
+          <ul>
+            {iconList}
+          </ul>
           <div aria-label="사용자 프로필">
             <StyledBadge
               overlap="circular"

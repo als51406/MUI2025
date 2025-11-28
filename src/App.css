@@ -47,8 +47,11 @@
 }
 
 #asideWrap aside h2 {padding-top: 30px; padding-bottom: 50px;}
+#asideWrap aside h2 img {width: 24px; height: 24px;}
 #asideWrap aside .ulbox {width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding-bottom: 20px;}
 #asideWrap aside .ulbox ul:nth-child(1) {list-style: none; width: 24px; display: flex; flex-direction: column; gap: 30px;}
+#asideWrap aside .ulbox ul li {list-style: none;}
+#asideWrap aside .ulbox ul li img {width: 24px; height: 24px; display: block;}
 
 
 
