@@ -1,6 +1,7 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Box, Typography, Card, CardContent } from '@mui/material';
 import { doughnutChartData } from '../data/dashboardData';
 import { useThemeMode } from '../theme/ThemeContext';
 
@@ -40,6 +41,8 @@ const Doughnutchart: React.FC = () => {
           boxHeight: 12,
           usePointStyle: true,
           pointStyle: 'circle' as const,
+          padding: 16,
+          font: { size: 12 }
         }
       },
       tooltip: {
@@ -60,9 +63,49 @@ const Doughnutchart: React.FC = () => {
   }), [colors, isDark]);
 
   return (
-    <div style={{ width: 300, height: 300, background: isDark ? '#272B30' : '#FFFFFF', borderRadius: 8, padding: 16, boxSizing: 'border-box' }}>
-      <Doughnut data={data} options={options} />
-    </div>
+    <Card 
+      sx={{ 
+        width: '100%',
+        height: '100%',
+        borderRadius: 3, 
+        boxShadow: isDark ? 
+          '0 4px 20px rgba(0, 0, 0, 0.4)' : 
+          '0 2px 12px rgba(0, 0, 0, 0.08)',
+        backgroundColor: isDark ? '#272B30' : '#FFFFFF',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          transform: 'translateY(-2px)',
+          boxShadow: isDark ? 
+            '0 8px 25px rgba(0, 0, 0, 0.5)' : 
+            '0 4px 20px rgba(0, 0, 0, 0.12)',
+        }
+      }}
+    >
+      <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Typography 
+            variant="h6" 
+            component="h2"
+            sx={{ 
+              fontWeight: 600,
+              fontSize: '1.125rem',
+              color: colors.title,
+              letterSpacing: '-0.025em'
+            }}
+          >
+            Analytics
+          </Typography>
+          <Box sx={{ color: isDark ? '#6B7280' : '#9CA3AF' }}>
+            <span>•••</span>
+          </Box>
+        </Box>
+        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 0 }}>
+          <Box sx={{ width: '100%', maxWidth: 280, height: 280 }}>
+            <Doughnut data={data} options={options} />
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 

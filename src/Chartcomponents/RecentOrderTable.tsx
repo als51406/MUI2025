@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, Typography, Box, TableSortLabel, Card, CardContent
+  Paper, Typography, TableSortLabel, Card, CardContent, Box
 } from "@mui/material";
 import { recentOrders } from '../data/dashboardData';
 import { Order } from '../types';
@@ -53,19 +53,23 @@ export default function RecentOrdersTable() {
       }}
     >
       <CardContent sx={{ p: 3 }}>
-        <Typography 
-          variant="h6" 
-          component="h2"
-          sx={{ 
-            mb: 3,
-            fontWeight: 600,
-            fontSize: '1.125rem',
-            color: isDark ? '#FFFFFF' : '#1F2937',
-            letterSpacing: '-0.025em'
-          }}
-        >
-          Recent Orders
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Typography 
+            variant="h6" 
+            component="h2"
+            sx={{ 
+              fontWeight: 600,
+              fontSize: '1.125rem',
+              color: isDark ? '#FFFFFF' : '#1F2937',
+              letterSpacing: '-0.025em'
+            }}
+          >
+            Recent Orders
+          </Typography>
+          <Box sx={{ color: isDark ? '#6B7280' : '#9CA3AF' }}>
+            <span>•••</span>
+          </Box>
+        </Box>
         <TableContainer
           component={Paper}
           sx={{

@@ -14,7 +14,7 @@ import {
 } from "chart.js";
 import type { ChartArea } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Card, CardContent } from "@mui/material";
 import { reportChartData } from '../data/dashboardData';
 import { useThemeMode } from '../theme/ThemeContext';
 
@@ -153,48 +153,57 @@ export default function ReportChart() {
     animation: { duration: 650, easing: 'easeOutQuart' as const }
   }), [colors, isDark]);
   return (
-    <Box
-      sx={{
-        width: "720px",
-        height: "408px",
-        padding: 3,
-        margin: 0, // 마진 제거 (Layout에서 관리)
-        backgroundColor: isDark ? '#272B30' : 'white',
-        borderRadius: 2,
-        border: "none",
-        position: "relative",
-        boxSizing: "border-box",
+    <Card 
+      sx={{ 
+        width: '100%',
+        height: '100%',
+        borderRadius: 3, 
+        boxShadow: isDark ? 
+          '0 4px 20px rgba(0, 0, 0, 0.4)' : 
+          '0 2px 12px rgba(0, 0, 0, 0.08)',
+        backgroundColor: isDark ? '#272B30' : '#FFFFFF',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          transform: 'translateY(-2px)',
+          boxShadow: isDark ? 
+            '0 8px 25px rgba(0, 0, 0, 0.5)' : 
+            '0 4px 20px rgba(0, 0, 0, 0.12)',
+        }
       }}
     >
-      {/* Header */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 3,
-        }}
-      >
-        <Typography
-          variant="h6"
+      <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
+        {/* Header */}
+        <Box
           sx={{
-            color: colors.title,
-            fontWeight: 600,
-            fontSize: "18px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
           }}
         >
-          Reports
-        </Typography>
-        <Box sx={{ color: "#9CA3AF" }}>
-          <span>•••</span>
+          <Typography
+            variant="h6"
+            component="h2"
+            sx={{
+              color: colors.title,
+              fontWeight: 600,
+              fontSize: "1.125rem",
+              letterSpacing: '-0.025em'
+            }}
+          >
+            Reports
+          </Typography>
+          <Box sx={{ color: isDark ? '#6B7280' : '#9CA3AF' }}>
+            <span>•••</span>
+          </Box>
         </Box>
-      </Box>
 
-      {/* Chart */}
-      <Box sx={{ height: "calc(100% - 80px)" }}>
-        <Line data={data} options={options} />
-      </Box>
-    </Box>
+        {/* Chart */}
+        <Box sx={{ flex: 1, minHeight: 0 }}>
+          <Line data={data} options={options} />
+        </Box>
+      </CardContent>
+    </Card>
   );
 
 }
