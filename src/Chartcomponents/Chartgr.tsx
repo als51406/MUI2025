@@ -42,8 +42,8 @@ export default function ReportChart() {
     },
     background: {
       start: isDark ? "rgba(155, 127, 247, 0)" : "rgba(54, 162, 235, 0)",
-      middle: isDark ? "rgba(123, 91, 245, 0.15)" : "rgba(123, 104, 238, 0.1)",
-      end: isDark ? "rgba(89, 50, 234, 0.3)" : "rgba(153, 102, 255, 0.2)"
+      middle: isDark ? "rgba(123, 91, 245, 0.22)" : "rgba(123, 104, 238, 0.15)",
+      end: isDark ? "rgba(89, 50, 234, 0.38)" : "rgba(153, 102, 255, 0.26)"
     },
     grid: isDark ? "#3A3F47" : "#F3F4F6",
     text: isDark ? "#B0B0B0" : "#9CA3AF",
@@ -71,40 +71,34 @@ export default function ReportChart() {
     return gradient;
   }, [colors]);
 
-  const data = {
-    labels: reportChartData.map(item => item.label), // x축에 표시될 값들
+  const data = React.useMemo(() => ({
+    labels: reportChartData.map(item => item.label),
     datasets: [
       {
-        label: "Sales", //범례에 표시될 이름
-        data: reportChartData.map(item => item.value), // y축 값들
-        borderColor: function (context: ScriptableContext<'line'>): string | CanvasGradient { // 선 색상
+        label: "Sales",
+        data: reportChartData.map(item => item.value),
+        borderColor: function (context: ScriptableContext<'line'>): string | CanvasGradient {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) {
-            return colors.line.start;
-          }
+          if (!chartArea) return colors.line.start;
           return createLineGradient(ctx as CanvasRenderingContext2D, chartArea as ChartArea);
         },
         backgroundColor: function (context: ScriptableContext<'line'>): string | CanvasGradient {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) {
-            return colors.background.middle;
-          }
+          if (!chartArea) return colors.background.middle;
           return createBackgroundGradient(ctx as CanvasRenderingContext2D, chartArea as ChartArea);
         },
-        tension: 0.4,
+        tension: 0.35,
         fill: true,
-        borderWidth: 3,
-        borderDash: [], // 실선으로 명시적 설정
-        pointRadius: 4,
-        pointHoverRadius: 6,
+        borderWidth: 2.5,
+        borderDash: [],
+        pointRadius: reportChartData.length > 30 ? 0 : 4,
+        pointHoverRadius: reportChartData.length > 30 ? 0 : 6,
         pointBackgroundColor: function (context: ScriptableContext<'line'>): string | CanvasGradient {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) {
-            return colors.line.start;
-          }
+          if (!chartArea) return colors.line.start;
           return createLineGradient(ctx as CanvasRenderingContext2D, chartArea as ChartArea);
         },
         pointBorderColor: isDark ? "#272B30" : "white",
@@ -112,98 +106,52 @@ export default function ReportChart() {
         pointHoverBackgroundColor: function (context: ScriptableContext<'line'>): string | CanvasGradient {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
-          if (!chartArea) {
-            return colors.line.start;
-          }
+          if (!chartArea) return colors.line.start;
           return createLineGradient(ctx as CanvasRenderingContext2D, chartArea as ChartArea);
         },
         pointHoverBorderColor: isDark ? "#272B30" : "white",
         pointHoverBorderWidth: 2,
       },
     ],
-  };
+  }), [reportChartData, colors, createLineGradient, createBackgroundGradient, isDark]);
   
-  const options = {
+  const options = React.useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
-    interaction: {
-      intersect: false,
-      mode: "index" as const,
-    },
+    interaction: { intersect: false, mode: 'index' as const },
     plugins: {
-      legend: {
-        display: false,
-      },
+      legend: { display: false },
       tooltip: {
         enabled: true,
         backgroundColor: colors.tooltip,
-        titleColor: "white",
-        bodyColor: "white",
-        borderColor: isDark ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.1)",
+        titleColor: 'white',
+        bodyColor: 'white',
+        borderColor: isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.1)',
         borderWidth: 1,
         cornerRadius: 8,
         padding: 12,
         displayColors: false,
         callbacks: {
-          title: function (): string {
-            return "";
-          },
-          label: function (context: TooltipItem<'line'>): string {
-            return `${context.dataset.label}`;
-          },
-          afterLabel: function (context: TooltipItem<'line'>): string {
-            return `${context.parsed.y.toLocaleString()}`;
-          },
-        },
-      },
+          title: () => '',
+          label: (context: TooltipItem<'line'>) => `${context.dataset.label}`,
+          afterLabel: (context: TooltipItem<'line'>) => `${context.parsed.y.toLocaleString()}`,
+        }
+      }
     },
     scales: {
-      x: {
-        display: true,
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: colors.text,
-          font: {
-            size: 12,
-          },
-        },
-        border: {
-          display: false,
-        },
-      },
+      x: { grid: { display: false }, ticks: { color: colors.text, font: { size: 12 } }, border: { display: false } },
       y: {
-        display: true,
-        position: "left" as const,
-        grid: {
-          color: colors.grid,
-          drawBorder: false,
-        },
-        ticks: {
-          color: colors.text,
-          font: {
-            size: 12,
-          },
-          stepSize: 20,
-          callback: function (value: string | number): string | number {
-            return value;
-          },
-        },
-        border: {
-          display: false,
-        },
+        position: 'left' as const,
+        grid: { color: colors.grid, drawBorder: false },
+        ticks: { color: colors.text, font: { size: 12 }, stepSize: 20, callback: (value: string | number) => value },
+        border: { display: false },
         beginAtZero: true,
         max: 100,
-      },
+      }
     },
-    elements: {
-      point: {
-        hoverRadius: 6,
-      },
-    },
-  };
-
+    elements: { point: { hoverRadius: 6 } },
+    animation: { duration: 650, easing: 'easeOutQuart' as const }
+  }), [colors, isDark]);
   return (
     <Box
       sx={{
