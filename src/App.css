@@ -1,38 +1,47 @@
-.App {
-  text-align: center;
-}
+* {margin: 0; padding: 0;}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+/****************ID값****************/
+#bodyWrap {width: 100%; min-height: 100vh; display: flex; flex-direction: row; background-color: #FAFAFB;}
+#mainWrap {flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center;}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+/****************ASIDE****************/
+#asideWrap {width: 140px; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding-top: 35px; flex-shrink: 0;}
+#asideWrap aside {width: 80px; min-height: 900px; background-color: white; display: flex; flex-direction: column; align-items: center; text-align: center; border-radius: 10px; position: sticky; top: 35px;}
+#asideWrap aside h2 {padding-top: 30px; padding-bottom: 50px;}
+#asideWrap aside .ulbox {width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding-bottom: 20px;}
+#asideWrap aside .ulbox ul:nth-child(1) {list-style: none; width: 24px; display: flex; flex-direction: column; gap: 30px;}
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
+/****************HEADER****************/
+header {padding: 35px 40px 30px; max-width: 1400px; width: 100%; display: flex; flex-direction: row; justify-content: space-between; align-items: center;}
+header ul {min-width: 275px; list-style: none; display: flex; flex-direction: row; gap: 15px; align-items: center;}
+header ul li {flex: 1; min-width: 130px; height: 40px; background-color: white; border-radius: 10px; text-align: center; line-height: 40px;}
+
+
+/****************NAV****************/
+nav {max-width: 1400px; width: 100%; padding: 0 40px 30px; box-sizing: border-box;}
+nav ul {list-style: none; display: flex; flex-direction: row; gap: 20px; align-items: center;}
+nav ul li {flex: 1; min-width: 240px; height: 116px; display: flex; justify-content: flex-start; align-items: center; background-color: white; border-radius: 10px; padding: 0 16px; box-sizing: border-box;}
+nav ul li img {padding-right: 23px;}
+
+
+
+/****************MAINVIEW****************/
+.mainView {max-width: 1400px; width: 100%; padding: 0 40px; box-sizing: border-box; display: flex; flex-direction: row; gap: 33px; align-items: stretch;}
+.mainView .reports {flex: 1.6; min-width: 500px; height: 410px; border-radius: 10px; background-color: white;}
+.mainView .analytics {flex: 1; min-width: 350px; height: 408px; background-color: white; display: flex; justify-content: center; align-items: center; border-radius: 10px;}
+
+
+/****************SUBVIEW****************/
+.subView {max-width: 1400px; width: 100%; padding: 0 40px; box-sizing: border-box; display: flex; flex-direction: row; gap: 33px; align-items: flex-start;}
+.subView .recentorders {flex: 1.6; min-width: 500px;}
+
+.subView .topsellingproducts {flex: 1; min-width: 350px; padding-top: 30px;}
+
+
+
+
+
+

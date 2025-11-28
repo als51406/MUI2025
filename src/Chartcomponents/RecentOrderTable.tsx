@@ -1,0 +1,113 @@
+import * as React from "react";
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper, Typography, Box, TableSortLabel
+} from "@mui/material";
+import { recentOrders } from '../data/dashboardData';
+import { Order } from '../types';
+
+export default function RecentOrdersTable() {
+  const [orderDirection, setOrderDirection] = React.useState<"asc" | "desc">("asc");
+  const [orderBy, setOrderBy] = React.useState<keyof Order>("id");
+
+  const handleSort = React.useCallback((property: keyof Order) => {
+    setOrderBy(prevOrderBy => {
+      const isAsc = prevOrderBy === property && orderDirection === "asc";
+      setOrderDirection(isAsc ? "desc" : "asc");
+      return property;
+    });
+  }, [orderDirection]);
+
+  const sortedRows = React.useMemo(() => {
+    return [...recentOrders].sort((a, b) => {
+      if (orderBy === "price" || orderBy === "order" || orderBy === "amount") {
+        return orderDirection === "asc"
+          ? a[orderBy] - b[orderBy]
+          : b[orderBy] - a[orderBy];
+      } else {
+        return orderDirection === "asc"
+          ? a[orderBy].localeCompare(b[orderBy])
+          : b[orderBy].localeCompare(a[orderBy]);
+      }
+    });
+  }, [orderBy, orderDirection]);
+
+  return (
+    <Box p={3}>
+      <Typography variant="h6" sx={{ mb: 2 }}>
+        Recent Orders
+      </Typography>
+      <TableContainer
+        component={Paper}
+        sx={{
+          borderRadius: 2,
+          boxShadow: 2,
+          maxHeight: 400,
+        }}
+      >
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell sortDirection={orderBy === "id" ? orderDirection : false}>
+                <TableSortLabel
+                  active={orderBy === "id"}
+                  direction={orderBy === "id" ? orderDirection : "asc"}
+                  onClick={() => handleSort("id")}
+                >
+                  Tracking no
+                </TableSortLabel>
+              </TableCell>
+              <TableCell sortDirection={orderBy === "product" ? orderDirection : false}>
+                <TableSortLabel
+                  active={orderBy === "product"}
+                  direction={orderBy === "product" ? orderDirection : "asc"}
+                  onClick={() => handleSort("product")}
+                >
+                  Product Name
+                </TableSortLabel>
+              </TableCell>
+              <TableCell sortDirection={orderBy === "price" ? orderDirection : false}>
+                <TableSortLabel
+                  active={orderBy === "price"}
+                  direction={orderBy === "price" ? orderDirection : "asc"}
+                  onClick={() => handleSort("price")}
+                >
+                  Price
+                </TableSortLabel>
+              </TableCell>
+              <TableCell sortDirection={orderBy === "order" ? orderDirection : false}>
+                <TableSortLabel
+                  active={orderBy === "order"}
+                  direction={orderBy === "order" ? orderDirection : "asc"}
+                  onClick={() => handleSort("order")}
+                >
+                  Total Order
+                </TableSortLabel>
+              </TableCell>
+              <TableCell sortDirection={orderBy === "amount" ? orderDirection : false}>
+                <TableSortLabel
+                  active={orderBy === "amount"}
+                  direction={orderBy === "amount" ? orderDirection : "asc"}
+                  onClick={() => handleSort("amount")}
+                >
+                  Total Amount
+                </TableSortLabel>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sortedRows.map((row) => (
+              <TableRow key={row.id} hover>
+                <TableCell>{row.id}</TableCell>
+                <TableCell>{row.product}</TableCell>
+                <TableCell>${row.price}</TableCell>
+                <TableCell>{row.order}</TableCell>
+                <TableCell>${row.amount}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
+}
